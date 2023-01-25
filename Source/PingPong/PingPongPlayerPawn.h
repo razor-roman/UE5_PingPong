@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/Widget.h"
 #include "GameFramework/Pawn.h"
 #include "PingPongPlayerPawn.generated.h"
 
+class UMainScreenWidget;
 UCLASS()
 class PINGPONG_API APingPongPlayerPawn : public APawn
 {
@@ -31,4 +33,5 @@ protected:
 	class USpringArmComponent * SpringArm;
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category ="Components")
 	class UCameraComponent * Camera;
+	
 };

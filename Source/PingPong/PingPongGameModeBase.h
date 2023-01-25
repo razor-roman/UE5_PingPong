@@ -23,7 +23,8 @@ protected:
 	APlayerStart* Player1Start;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	APlayerStart* Player2Start;
-
+	
+	
 public:
 	APingPongGameModeBase();
 	virtual void BeginPlay() override;

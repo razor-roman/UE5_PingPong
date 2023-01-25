@@ -3,6 +3,8 @@
 
 #include "PingPongPlayerPawn.h"
 
+#include "MainScreenWidget.h"
+#include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 
@@ -18,6 +20,7 @@ APingPongPlayerPawn::APingPongPlayerPawn()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
 	SetReplicates(true);
+	
 }
 
 // Called when the game starts or when spawned
@@ -38,6 +41,6 @@ void APingPongPlayerPawn::Tick(float DeltaTime)
 void APingPongPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
+	
 }
 
