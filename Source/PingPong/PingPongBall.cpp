@@ -3,6 +3,7 @@
 
 #include "PingPongBall.h"
 
+#include "PingPongPlayerPawn.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
@@ -88,6 +89,10 @@ bool APingPongBall::Server_StartMove_Validate()
 
 void APingPongBall::Server_Move_Implementation(float DeltaTime)
 {
+	TArray<AActor*> Actors;
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(),APingPongPlayerPawn::StaticClass(),Actors);
+	if(Actors.Num()!=2) return;
+	
 	FVector forward = GetActorForwardVector();
 	FVector currLoc = GetActorLocation();
 	FVector newLoc = currLoc + forward * MoveSpeed * DeltaTime;

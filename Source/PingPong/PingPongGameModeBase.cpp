@@ -3,6 +3,7 @@
 
 #include "PingPongGameModeBase.h"
 
+#include "GameplayTagContainer.h"
 #include "PingPongPlayerController.h"
 #include "PingPongPlayerPawn.h"
 #include "GameFramework/PlayerStart.h"
@@ -58,7 +59,7 @@ void APingPongGameModeBase::PostLogin(APlayerController* NewPlayer)
 		newPawn = world->SpawnActor<APingPongPlayerPawn>(DefaultPawnClass);
 	}
 	if(startPos && newPawn)
-	{
+	{	
 		newPawn->SetActorLocation(startPos->GetActorLocation());
 		newPawn->SetActorRotation(startPos->GetActorRotation());
 		NewPlayer->SetPawn(newPawn);

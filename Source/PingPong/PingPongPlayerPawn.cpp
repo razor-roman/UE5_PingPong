@@ -2,8 +2,8 @@
 
 
 #include "PingPongPlayerPawn.h"
-
 #include "MainScreenWidget.h"
+#include "PingPongPlayerController.h"
 #include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -20,21 +20,30 @@ APingPongPlayerPawn::APingPongPlayerPawn()
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(SpringArm);
 	SetReplicates(true);
-	
 }
 
 // Called when the game starts or when spawned
 void APingPongPlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	if (WidgetTemplate)
+	{
+		if (!WidgetInstance)
+		{
+			WidgetInstance = CreateWidget<UMainScreenWidget>(GetWorld()->GetFirstPlayerController(), WidgetTemplate);
+		}
+		if (!WidgetInstance->GetIsVisible())
+		{
+			WidgetInstance->AddToViewport();
+		}
+	}
 }
 
 // Called every frame
 void APingPongPlayerPawn::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
+	
 }
 
 // Called to bind functionality to input
@@ -44,3 +53,9 @@ void APingPongPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInput
 	
 }
 
+void APingPongPlayerPawn::ScoreUpdate(int value)
+{
+	APingPongPlayerState* PingPongPlayerState = GetPlayerStateChecked<APingPongPlayerState>();
+    PingPongPlayerState->AddToScore(value);
+	WidgetInstance->SetScoreText(PingPongPlayerState->GetScore());
+}

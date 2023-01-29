@@ -3,6 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "GameplayTagContainer.h"
+#include "PingPongGoal.h"
+#include "PingPongHUD.h"
+#include "PingPongPlayerState.h"
 #include "Components/Widget.h"
 #include "GameFramework/Pawn.h"
 #include "PingPongPlayerPawn.generated.h"
@@ -34,4 +38,16 @@ protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category ="Components")
 	class UCameraComponent * Camera;
 	
+	UPROPERTY(EditAnywhere, Category = UI)
+	TSubclassOf<UMainScreenWidget> WidgetTemplate;
+
+	UPROPERTY()
+	UMainScreenWidget* WidgetInstance;
+	
+	// UPROPERTY()
+	// APingPongPlayerState* PingPongPlayerStatePlayerState;
+	
+public:
+	UFUNCTION()
+	void ScoreUpdate(int value);
 };
