@@ -3,12 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameplayTagContainer.h"
-#include "PingPongGoal.h"
-#include "PingPongHUD.h"
-#include "PingPongPlayerState.h"
 #include "Components/Widget.h"
 #include "GameFramework/Pawn.h"
+#include "PingPong/PingPongPlayerState.h"
 #include "PingPongPlayerPawn.generated.h"
 
 class UMainScreenWidget;
@@ -43,10 +40,7 @@ protected:
 
 	UPROPERTY()
 	UMainScreenWidget* WidgetInstance;
-	
-	// UPROPERTY()
-	// APingPongPlayerState* PingPongPlayerStatePlayerState;
-	
+
 public:
 	UFUNCTION()
 	void ScoreUpdate(int value);

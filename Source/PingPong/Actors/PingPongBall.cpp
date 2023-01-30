@@ -3,11 +3,11 @@
 
 #include "PingPongBall.h"
 
-#include "PingPongPlayerPawn.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
+#include "PingPong/Pawns/PingPongPlayerPawn.h"
 
 // Sets default values
 APingPongBall::APingPongBall()
@@ -28,7 +28,7 @@ APingPongBall::APingPongBall()
 void APingPongBall::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	StartPosition = GetActorLocation();
 }
 
 // Called every frame
@@ -56,6 +56,11 @@ void APingPongBall::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLif
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(APingPongBall,isMoving);
+}
+
+void APingPongBall::ResetPosition()
+{
+	SetActorLocation(StartPosition);
 }
 
 void APingPongBall::Multicast_HitEffect_Implementation()

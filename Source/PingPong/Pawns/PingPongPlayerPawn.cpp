@@ -2,11 +2,13 @@
 
 
 #include "PingPongPlayerPawn.h"
-#include "MainScreenWidget.h"
-#include "PingPongPlayerController.h"
 #include "Blueprint/UserWidget.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
+#include "Kismet/GameplayStatics.h"
+#include "Kismet/KismetSystemLibrary.h"
+#include "PingPong/PingPongPlayerState.h"
+#include "PingPong/UI/MainScreenWidget.h"
 
 // Sets default values
 APingPongPlayerPawn::APingPongPlayerPawn()
@@ -26,24 +28,24 @@ APingPongPlayerPawn::APingPongPlayerPawn()
 void APingPongPlayerPawn::BeginPlay()
 {
 	Super::BeginPlay();
-	if (WidgetTemplate)
-	{
-		if (!WidgetInstance)
-		{
-			WidgetInstance = CreateWidget<UMainScreenWidget>(GetWorld()->GetFirstPlayerController(), WidgetTemplate);
-		}
-		if (!WidgetInstance->GetIsVisible())
-		{
-			WidgetInstance->AddToViewport();
-		}
-	}
+	// if (WidgetTemplate)
+	// {
+	// 	if (!WidgetInstance)
+	// 	{
+	// 		this;
+	// 		WidgetInstance = CreateWidget<UMainScreenWidget>(GetWorld()->GetFirstPlayerController(), WidgetTemplate);
+	// 	}
+	// 	if (!WidgetInstance->GetIsVisible())
+	// 	{
+	// 		WidgetInstance->AddToViewport();
+	// 	}
+	// }	
 }
 
 // Called every frame
 void APingPongPlayerPawn::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
-	
+	Super::Tick(DeltaTime);	
 }
 
 // Called to bind functionality to input
@@ -55,7 +57,6 @@ void APingPongPlayerPawn::SetupPlayerInputComponent(UInputComponent* PlayerInput
 
 void APingPongPlayerPawn::ScoreUpdate(int value)
 {
-	APingPongPlayerState* PingPongPlayerState = GetPlayerStateChecked<APingPongPlayerState>();
-    PingPongPlayerState->AddToScore(value);
-	WidgetInstance->SetScoreText(PingPongPlayerState->GetScore());
+	//WidgetInstance->SetScoreText(value);
 }
+

@@ -2,7 +2,8 @@
 
 
 #include "PingPongPlayerController.h"
-#include "PingPongPlatform.h"
+
+#include "Actors/PingPongPlatform.h"
 
 APingPongPlayerController::APingPongPlayerController()
 {

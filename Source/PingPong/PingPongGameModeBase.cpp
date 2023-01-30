@@ -5,16 +5,15 @@
 
 #include "GameplayTagContainer.h"
 #include "PingPongPlayerController.h"
-#include "PingPongPlayerPawn.h"
 #include "GameFramework/PlayerStart.h"
 #include "Kismet/GameplayStatics.h"
+#include "Pawns/PingPongPlayerPawn.h"
 
 APingPongGameModeBase::APingPongGameModeBase()
 {
 	DefaultPawnClass = APingPongPlayerPawn::StaticClass();
 	PlayerControllerClass = APingPongPlayerController::StaticClass();
 }
-
 
 void APingPongGameModeBase::BeginPlay()
 {
@@ -59,7 +58,7 @@ void APingPongGameModeBase::PostLogin(APlayerController* NewPlayer)
 		newPawn = world->SpawnActor<APingPongPlayerPawn>(DefaultPawnClass);
 	}
 	if(startPos && newPawn)
-	{	
+	{
 		newPawn->SetActorLocation(startPos->GetActorLocation());
 		newPawn->SetActorRotation(startPos->GetActorRotation());
 		NewPlayer->SetPawn(newPawn);

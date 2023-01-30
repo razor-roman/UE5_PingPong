@@ -4,9 +4,11 @@
 #include "PingPongGoal.h"
 
 #include "PingPongBall.h"
-#include "PingPongPlayerPawn.h"
+#include "GameFramework/GameStateBase.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "PingPong/PingPongPlayerState.h"
+#include "PingPong/Pawns/PingPongPlayerPawn.h"
 
 // Sets default values
 APingPongGoal::APingPongGoal()
@@ -18,6 +20,7 @@ APingPongGoal::APingPongGoal()
 	BoxCollision->SetupAttachment(RootComponent);
 	BoxCollision->OnComponentBeginOverlap.AddDynamic(this,&APingPongGoal::OnBeginOverlap);
 	BoxCollision->OnComponentEndOverlap.AddDynamic(this,&APingPongGoal::OnEndOverlap);
+
 	bReplicates=true;
 	SetReplicateMovement(true);
 }
@@ -33,12 +36,11 @@ void APingPongGoal::BeginPlay()
 void APingPongGoal::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 
 void APingPongGoal::OnEndOverlap_Implementation(UPrimitiveComponent* OverlappedComp, AActor* OtherActor,
-	UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+                                                UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	if(OtherActor==OverlappedActor) OverlappedActor=nullptr;
 }
@@ -68,7 +70,7 @@ void APingPongGoal::OnBeginOverlap_Implementation(UPrimitiveComponent* Overlappe
 			Distance2 = GoalLocation-PawnLocation;
 			Vec2Size = UKismetMathLibrary::Vector4_Size(Distance2);
 		}
-		if(Vec1Size<Vec2Size)
+		if(Vec1Size>Vec2Size)
 		{
 			PlayerPawn=Cast<APingPongPlayerPawn>(Actors[0]);
 		}
@@ -79,6 +81,13 @@ void APingPongGoal::OnBeginOverlap_Implementation(UPrimitiveComponent* Overlappe
 	}
 	if(Cast<APingPongBall>(OtherActor))
 	{
-		PlayerPawn->ScoreUpdate(1);
+		APingPongPlayerState* PingPongPlayerState = PlayerPawn->GetPlayerStateChecked<APingPongPlayerState>();
+		if(PingPongPlayerState)
+		{
+			PingPongPlayerState->AddToScore(1);
+			PlayerPawn->ScoreUpdate(PingPongPlayerState->GetScore());
+		}
+		APingPongBall* Ball = Cast<APingPongBall>(OtherActor);
+		Ball->ResetPosition();
 	}
 }

@@ -14,10 +14,13 @@ class PINGPONG_API APingPongPlayerState : public APlayerState
 {
 	GENERATED_BODY()
 protected:
-	UPROPERTY()
+	UPROPERTY(EditAnywhere,BlueprintReadWrite);
 	int PlayerScore;
 public:
+	UFUNCTION(BlueprintCallable)
 	void SetScore(int value) {PlayerScore=value;}
-	int GetScore() {return PlayerScore;}
+	UFUNCTION()
+	int GetScore() const {return PlayerScore;}
+	UFUNCTION()
 	void AddToScore(int value) {PlayerScore=PlayerScore+value;} 
 };

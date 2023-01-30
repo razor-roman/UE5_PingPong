@@ -28,4 +28,5 @@ public:
 	APingPongGameModeBase();
 	virtual void BeginPlay() override;
 	virtual void PostLogin(APlayerController* NewPlayer) override;
+	
 };

@@ -53,4 +53,9 @@ public:
 	void StopMove();
 	
 	virtual void GetLifetimeReplicatedProps(TArray < class FLifetimeProperty >& OutLifetimeProps) const override;
+
+public:
+	void ResetPosition();
+protected:
+	FVector StartPosition;
 };

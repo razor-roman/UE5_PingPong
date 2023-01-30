@@ -6,6 +6,7 @@
 
 void UMainScreenWidget::SetScoreText(int Value)
 {
+	ScoreText->Text=FText::FromString("");
 	ScoreText->SetText(FText::AsNumber(Value));
 }
 
