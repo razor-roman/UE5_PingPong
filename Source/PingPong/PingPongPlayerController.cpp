@@ -7,12 +7,19 @@
 
 APingPongPlayerController::APingPongPlayerController()
 {
-	SetReplicates(true);
+	
 }
 
 void APingPongPlayerController::SetStartTransform(FTransform NewStartTransform)
 {
 	StartTransform=NewStartTransform;
+}
+
+void APingPongPlayerController::PreInitializeComponents()
+{
+
+	Super::PreInitializeComponents();
+	bReplicates=true;
 }
 
 void APingPongPlayerController::SpawnPlatform_Implementation()

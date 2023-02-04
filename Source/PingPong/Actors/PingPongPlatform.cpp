@@ -14,9 +14,8 @@ APingPongPlatform::APingPongPlatform()
 	SetRootComponent(BodyCollision);
 	BodyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlatformBody Mesh"));
 	BodyMesh->SetupAttachment(RootComponent);
-	BodyMesh->SetIsReplicated(true);
-	
-	SetReplicates(true);
+	BodyMesh->SetIsReplicated(true);	
+	bReplicates=true;
 	SetReplicateMovement(true);
 }
 
@@ -26,6 +25,7 @@ void APingPongPlatform::BeginPlay()
 	Super::BeginPlay();
 	
 }
+
 
 // Called every frame
 void APingPongPlatform::Tick(float DeltaTime)

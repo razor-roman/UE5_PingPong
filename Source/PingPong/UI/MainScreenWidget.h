@@ -17,12 +17,16 @@ class PINGPONG_API UMainScreenWidget : public UUserWidget
 	GENERATED_BODY()
 protected:
 	UPROPERTY(meta=(BindWidget))
-	UTextBlock* ScoreText;
+	UTextBlock* ScoreBlue;
+	UPROPERTY(meta=(BindWidget))
+	UTextBlock* ScoreGreen;
 	UPROPERTY(meta=(BindWidget))
 	UProgressBar* TouchCountBar;
 public:
 	UFUNCTION(BlueprintCallable)
-	void SetScoreText(int Value);
+	void SetScoreBlue(int Value);
+	UFUNCTION(BlueprintCallable)
+	void SetScoreGreen(int Value);
 	UFUNCTION(BlueprintCallable)
 	void SetTouchCountBar(float Value);
 	

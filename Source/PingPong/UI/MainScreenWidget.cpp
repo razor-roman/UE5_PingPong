@@ -4,10 +4,14 @@
 #include "MainScreenWidget.h"
 
 
-void UMainScreenWidget::SetScoreText(int Value)
+void UMainScreenWidget::SetScoreBlue(int Value)
 {
-	ScoreText->Text=FText::FromString("");
-	ScoreText->SetText(FText::AsNumber(Value));
+	ScoreBlue->SetText(FText::AsNumber(Value));
+}
+
+void UMainScreenWidget::SetScoreGreen(int Value)
+{
+	ScoreGreen->SetText(FText::AsNumber(Value));
 }
 
 void UMainScreenWidget::SetTouchCountBar(float Value)

@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PingPong/PingPongGameState.h"
 #include "PingPongBall.generated.h"
 
 class USphereComponent;
@@ -19,7 +20,6 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -36,6 +36,9 @@ protected:
 	UPROPERTY(Replicated)
 	bool isMoving = true;
 
+	FVector forward;
+	FVector currLoc;
+	FVector newLoc ;
 protected:
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_Move(float DeltaTime);
@@ -45,17 +48,27 @@ protected:
 	void Server_StopMove();
 	UFUNCTION(NetMulticast, Unreliable)
 	void Multicast_HitEffect();
-
+	virtual void GetLifetimeReplicatedProps(TArray < class FLifetimeProperty >& OutLifetimeProps) const override;
+	
 public:
 	UFUNCTION(BlueprintCallable)
 	void StartMove();
 	UFUNCTION(BlueprintCallable)
 	void StopMove();
 	
-	virtual void GetLifetimeReplicatedProps(TArray < class FLifetimeProperty >& OutLifetimeProps) const override;
-
+	UFUNCTION()
+		void OnCollisionBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
 public:
-	void ResetPosition();
+	void ResetBall();
 protected:
 	FVector StartPosition;
+	
+protected:
+	UPROPERTY()
+	APingPongGameState* PingPongGameState;
+
+	UPROPERTY()
+	int BallHits;
 };
+

@@ -31,7 +31,9 @@ public:
 
 	UFUNCTION(Server,Reliable,WithValidation)
 	void Initialize();
-
+	
+	virtual void PreInitializeComponents() override;
+	
 	UFUNCTION(Server,Reliable,WithValidation)
 	void SpawnPlatform();
 
