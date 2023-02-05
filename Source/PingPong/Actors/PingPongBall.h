@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "PingPong/PingPongGameState.h"
 #include "PingPongBall.generated.h"
 
+class APingPongGameStateBase;
 class USphereComponent;
 UCLASS()
 class PINGPONG_API APingPongBall : public AActor
@@ -66,7 +66,7 @@ protected:
 	
 protected:
 	UPROPERTY()
-	APingPongGameState* PingPongGameState;
+	APingPongGameStateBase* PingPongGameState;
 
 	UPROPERTY()
 	int BallHits;

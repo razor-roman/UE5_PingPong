@@ -2,13 +2,12 @@
 
 
 #include "PingPongBall.h"
-
 #include "PingPongGoal.h"
 #include "Components/SphereComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
-#include "PingPong/Pawns/PingPongPlayerPawn.h"
+#include "PingPong/PingPongGameStateBase.h"
 
 // Sets default values
 APingPongBall::APingPongBall()
@@ -29,7 +28,7 @@ void APingPongBall::BeginPlay()
 {
 	Super::BeginPlay();
 	StartPosition = GetActorLocation();
-	PingPongGameState = Cast<APingPongGameState>(UGameplayStatics::GetGameState(GetWorld())) ;
+	PingPongGameState = Cast<APingPongGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	verify(PingPongGameState);
 	BodyCollision->OnComponentBeginOverlap.AddDynamic(this,&APingPongBall::OnCollisionBeginOverlap);
 	BodyMesh->OnComponentBeginOverlap.AddDynamic(this,&APingPongBall::OnCollisionBeginOverlap);

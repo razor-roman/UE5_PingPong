@@ -3,21 +3,21 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/GameState.h"
-#include "Pawns/PingPongPlayerPawn.h"
-#include "PingPongGameState.generated.h"
+#include "GameFramework/GameStateBase.h"
+#include "PingPongGameStateBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class PINGPONG_API APingPongGameState : public AGameState
+class PINGPONG_API APingPongGameStateBase : public AGameStateBase
 {
 	GENERATED_BODY()
+	
 protected:
 	UPROPERTY()
 	int ScoreGreen=0,ScoreBlue=0;
- public:
+public:
 	void AddScoreToGreenPlayer(int Value);
 	void AddScoreToBluePlayer(int Value);
 };
