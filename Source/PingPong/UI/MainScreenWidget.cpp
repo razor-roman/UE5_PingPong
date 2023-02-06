@@ -3,18 +3,19 @@
 
 #include "MainScreenWidget.h"
 
+//
+// void UMainScreenWidget::SetScoreBlue(int Value)
+// {
+// 	TextScoreBlue->SetText(FText::AsNumber(Value));
+// }
+//
+// void UMainScreenWidget::SetScoreGreen(int Value)
+// {
+// 	TextScoreGreen->SetText(FText::AsNumber(Value));
+// }
+//
+// void UMainScreenWidget::SetTouchCountBar(float Value)
+// {
+// 	TouchCountBar->SetPercent(Value);
+// }
 
-void UMainScreenWidget::SetScoreBlue(int Value)
-{
-	ScoreBlue->SetText(FText::AsNumber(Value));
-}
-
-void UMainScreenWidget::SetScoreGreen(int Value)
-{
-	ScoreGreen->SetText(FText::AsNumber(Value));
-}
-
-void UMainScreenWidget::SetTouchCountBar(float Value)
-{
-	TouchCountBar->SetPercent(Value);
-}

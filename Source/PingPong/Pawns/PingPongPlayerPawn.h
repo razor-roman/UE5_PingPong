@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "Components/Widget.h"
 #include "GameFramework/Pawn.h"
-#include "PingPong/PingPongPlayerState.h"
 #include "PingPongPlayerPawn.generated.h"
 
 class UMainScreenWidget;

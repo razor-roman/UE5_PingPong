@@ -38,7 +38,7 @@ void APingPongBall::BeginPlay()
 // Called every frame
 void APingPongBall::Tick(float DeltaTime)
 {
-	Super::Tick(DeltaTime);
+	Super::Tick(DeltaTime);	
 	if (GetNetMode() != ENetMode::NM_Client)
 	{
 		Server_Move(DeltaTime);
@@ -69,17 +69,18 @@ void APingPongBall::OnCollisionBeginOverlap(UPrimitiveComponent* OverlappedComp,
 	{
 		if(PingPongGoal->Tags[0]=="Blue" && PingPongGameState)
 		{
-			PingPongGameState->AddScoreToGreenPlayer(1);
-			Reset();
+			PingPongGameState->AddScoreToGreenPlayer(PingPongGameState->GetBallHits());
+			ResetBall();
 		}
 		else
 		{
-			PingPongGameState->AddScoreToBluePlayer(1);
-			Reset();
+			PingPongGameState->AddScoreToBluePlayer(PingPongGameState->GetBallHits());
+			ResetBall();
 		}
 	}
 	else
 	{
+		PingPongGameState->AddValueToBallHits(1);
 		UE_LOG(LogTemp, Warning, TEXT("Ball %s Collided with %s"), *GetName(),*SweepResult.GetActor()->GetName());
 		FVector moveVector = forward - currLoc;
 		moveVector.Normalize();
@@ -96,7 +97,7 @@ void APingPongBall::OnCollisionBeginOverlap(UPrimitiveComponent* OverlappedComp,
 		newRotation.Pitch = currRotation.Pitch;
 		SetActorRotation(newRotation);
 		Multicast_HitEffect();
-		BallHits++;
+		
 	}
 }
 
@@ -104,7 +105,7 @@ void APingPongBall::OnCollisionBeginOverlap(UPrimitiveComponent* OverlappedComp,
 void APingPongBall::ResetBall()
 {
 	SetActorLocation(StartPosition);
-	BallHits=1;
+	PingPongGameState->ResetBallHits();
 }
 
 void APingPongBall::Multicast_HitEffect_Implementation()

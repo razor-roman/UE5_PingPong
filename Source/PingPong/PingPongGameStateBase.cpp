@@ -2,6 +2,7 @@
 
 
 #include "PingPongGameStateBase.h"
+#include "Net/UnrealNetwork.h"
 
 void APingPongGameStateBase::AddScoreToGreenPlayer(int Value)
 {
@@ -10,5 +11,24 @@ void APingPongGameStateBase::AddScoreToGreenPlayer(int Value)
 
 void APingPongGameStateBase::AddScoreToBluePlayer(int Value)
 {
-	ScoreBlue=+Value;
+	ScoreBlue+=Value;
 }
+
+void APingPongGameStateBase::AddValueToBallHits(int Value)
+{
+	BallHits+=Value;	
+}
+
+void APingPongGameStateBase::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const
+{
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+	DOREPLIFETIME( APingPongGameStateBase, ScoreGreen );
+	DOREPLIFETIME( APingPongGameStateBase, ScoreBlue );
+	DOREPLIFETIME( APingPongGameStateBase, BallHits );
+}
+
+APingPongGameStateBase::APingPongGameStateBase()
+{
+	bReplicates=true;
+}
+

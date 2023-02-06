@@ -15,9 +15,28 @@ class PINGPONG_API APingPongGameStateBase : public AGameStateBase
 	GENERATED_BODY()
 	
 protected:
-	UPROPERTY()
-	int ScoreGreen=0,ScoreBlue=0;
+	UPROPERTY(EditAnywhere,Replicated)
+	int ScoreGreen;
+	UPROPERTY(EditAnywhere,Replicated)
+	int ScoreBlue;
+	UPROPERTY(EditAnywhere,Replicated)
+	int BallHits;	
 public:
+	UFUNCTION(BlueprintCallable)
 	void AddScoreToGreenPlayer(int Value);
+	UFUNCTION(BlueprintCallable)
 	void AddScoreToBluePlayer(int Value);
+	UFUNCTION(BlueprintCallable)
+	void AddValueToBallHits(int Value);
+	UFUNCTION(BlueprintCallable)
+	int GetScoreBluePlayer()  {return ScoreBlue;}
+	UFUNCTION(BlueprintCallable) 
+	int GetScoreGreenPlayer()  {return ScoreGreen;}
+	UFUNCTION(BlueprintCallable) 
+	int GetBallHits()  {return BallHits;}
+	UFUNCTION(BlueprintCallable) 
+	void ResetBallHits()  {BallHits=0;}
+	virtual void GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const override;
+	APingPongGameStateBase();
+	
 };

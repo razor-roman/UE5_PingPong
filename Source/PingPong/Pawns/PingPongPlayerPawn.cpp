@@ -6,9 +6,6 @@
 #include "Camera/CameraComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetSystemLibrary.h"
-#include "PingPong/PingPongPlayerState.h"
-#include "PingPong/UI/MainScreenWidget.h"
 
 // Sets default values
 APingPongPlayerPawn::APingPongPlayerPawn()

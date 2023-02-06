@@ -68,7 +68,5 @@ protected:
 	UPROPERTY()
 	APingPongGameStateBase* PingPongGameState;
 
-	UPROPERTY()
-	int BallHits;
 };
 

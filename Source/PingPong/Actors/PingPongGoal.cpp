@@ -2,13 +2,7 @@
 
 
 #include "PingPongGoal.h"
-
-#include "PingPongBall.h"
-#include "GameFramework/GameStateBase.h"
 #include "Kismet/GameplayStatics.h"
-#include "Kismet/KismetMathLibrary.h"
-#include "PingPong/PingPongPlayerState.h"
-#include "PingPong/Pawns/PingPongPlayerPawn.h"
 
 // Sets default values
 APingPongGoal::APingPongGoal()
@@ -17,8 +11,7 @@ APingPongGoal::APingPongGoal()
 	PrimaryActorTick.bCanEverTick = true;	
 	
 	BoxCollision = CreateDefaultSubobject<UBoxComponent>("BoxCollision");
-	BoxCollision->SetupAttachment(RootComponent);
-	
+	BoxCollision->SetupAttachment(RootComponent);	
 	bReplicates=true;
 }
 
