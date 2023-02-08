@@ -142,7 +142,7 @@ void APingPongBall::Server_Move_Implementation(float DeltaTime)
 	// TArray<AActor*> Actors;
 	// UGameplayStatics::GetAllActorsOfClass(GetWorld(),APingPongPlayerPawn::StaticClass(),Actors);
 	// if(Actors.Num()!=2) return;
-	
+	if(!isMoving) return;
 	forward = GetActorForwardVector();
 	currLoc = GetActorLocation();
 	newLoc = currLoc + forward * MoveSpeed * DeltaTime;

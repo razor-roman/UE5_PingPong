@@ -35,7 +35,7 @@ public:
 	UFUNCTION(BlueprintCallable) 
 	int GetBallHits()  {return BallHits;}
 	UFUNCTION(BlueprintCallable) 
-	void ResetBallHits()  {BallHits=0;}
+	void ResetBallHits()  {BallHits=1;}
 	virtual void GetLifetimeReplicatedProps( TArray< FLifetimeProperty > & OutLifetimeProps ) const override;
 	APingPongGameStateBase();
 	
