@@ -31,7 +31,7 @@ void APingPongBall::BeginPlay()
 	PingPongGameState = Cast<APingPongGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	verify(PingPongGameState);
 	BodyCollision->OnComponentBeginOverlap.AddDynamic(this,&APingPongBall::OnCollisionBeginOverlap);
-	BodyMesh->OnComponentBeginOverlap.AddDynamic(this,&APingPongBall::OnCollisionBeginOverlap);
+	//BodyMesh->OnComponentBeginOverlap.AddDynamic(this,&APingPongBall::OnCollisionBeginOverlap);
 	
 }
 
@@ -147,10 +147,7 @@ void APingPongBall::Server_Move_Implementation(float DeltaTime)
 	currLoc = GetActorLocation();
 	newLoc = currLoc + forward * MoveSpeed * DeltaTime;
 	FHitResult hitResult;
-	if(!SetActorLocation(newLoc, true, &hitResult))
-	{
-		
-    }
+	
 }
 
 bool APingPongBall::Server_Move_Validate(float DeltaTime)
