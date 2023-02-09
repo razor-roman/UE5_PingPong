@@ -27,8 +27,6 @@ public:
 	
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category =	"Components")
-	UBoxComponent * BodyCollision;
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category =	"Components")
 	UStaticMeshComponent* BodyMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MoveSpeed = 100;

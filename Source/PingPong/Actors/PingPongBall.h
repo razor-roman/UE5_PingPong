@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
+#include "PingPong/Pawns/PingPongPlayerPawn.h"
 #include "PingPongBall.generated.h"
 
 class APingPongGameStateBase;
@@ -26,13 +27,11 @@ public:
 
 protected:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
-	USphereComponent* BodyCollision;
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Components")
 	UStaticMeshComponent* BodyMesh;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ball params")
-	float MoveSpeed = 100;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ball params")
 	UParticleSystem* HitEffect;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ball params")
+	UAudioComponent* BallCollideSound;
 	UPROPERTY(Replicated)
 	bool isMoving = true;
 
@@ -55,15 +54,25 @@ public:
 	void StartMove();
 	UFUNCTION(BlueprintCallable)
 	void StopMove();
-	
-	UFUNCTION()
-		void OnCollisionBeginOverlap(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
-	
+		
 public:
 	void ResetBall();
-protected:
-	FVector StartPosition;
 	
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ball params")
+	float MoveSpeed;
+	UPROPERTY(EditAnywhere)
+	float DefaultMoveSpeed = 2500;
+	UPROPERTY(EditAnywhere)
+	float SpeedUp = 300;
+	
+	FVector StartPosition;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ball params")
+	FVector Direction;	
+	
+	FVector NewDirection;
+	UPROPERTY()
+	APingPongPlayerPawn* PlayerPawn;
 protected:
 	UPROPERTY()
 	APingPongGameStateBase* PingPongGameState;

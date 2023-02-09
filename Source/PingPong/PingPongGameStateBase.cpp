@@ -6,16 +6,19 @@
 
 void APingPongGameStateBase::AddScoreToGreenPlayer(int Value)
 {
+	if(ScoreGreen<MaxScore)
 	ScoreGreen+=Value;
 }
 
 void APingPongGameStateBase::AddScoreToBluePlayer(int Value)
 {
+	if(ScoreBlue<MaxScore)
 	ScoreBlue+=Value;
 }
 
 void APingPongGameStateBase::AddValueToBallHits(int Value)
 {
+	if(BallHits<MaxScore)
 	BallHits+=Value;	
 }
 

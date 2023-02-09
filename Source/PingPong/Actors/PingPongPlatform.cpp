@@ -10,10 +10,8 @@ APingPongPlatform::APingPongPlatform()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	BodyCollision = CreateDefaultSubobject<UBoxComponent>(TEXT("PlatfromBody Collider"));
-	SetRootComponent(BodyCollision);
 	BodyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PlatformBody Mesh"));
-	BodyMesh->SetupAttachment(RootComponent);
+	SetRootComponent(BodyMesh);
 	BodyMesh->SetIsReplicated(true);	
 	bReplicates=true;
 	SetReplicateMovement(true);
