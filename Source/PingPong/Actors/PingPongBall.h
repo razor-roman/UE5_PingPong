@@ -32,9 +32,13 @@ protected:
 	UParticleSystem* HitEffect;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Ball params")
 	UAudioComponent* BallCollideSound;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
+	TSoftObjectPtr<UStaticMesh> BodyMeshRef;
+	UStaticMesh* LoadBodyMesh();
+	
 	UPROPERTY(Replicated)
-	bool isMoving = true;
-
+	bool isMoving = true;	
+	
 	FVector forward;
 	FVector currLoc;
 	FVector newLoc ;

@@ -4,9 +4,12 @@
 #include "PingPongBall.h"
 #include "PingPongGoal.h"
 #include "Components/AudioComponent.h"
+#include "Engine/AssetManager.h"
+#include "Engine/StreamableManager.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Net/UnrealNetwork.h"
+#include "Particles/ParticleSystem.h"
 #include "PingPong/PingPongGameStateBase.h"
 
 // Sets default values
@@ -15,21 +18,26 @@ APingPongBall::APingPongBall()
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	BodyMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Ball Body	Mesh"));
-	BodyMesh->SetIsReplicated(true);
-	
+	BodyMesh->SetIsReplicated(true);	
+	// ConstructorHelpers::FObjectFinder<UStaticMesh> LoadedBallMeshObj(TEXT("/Engine/VREditor/BasicMeshes/SM_Ball_01.SM_Ball_01"));
+	// BodyMesh->SetStaticMesh(LoadedBallMeshObj.Object);
 	BallCollideSound = CreateDefaultSubobject<UAudioComponent>(TEXT("OnDestroyAudioEffect"));
 	BallCollideSound->SetupAttachment(BodyMesh);
 	BallCollideSound->SetAutoActivate(false);
-	
 	SetRootComponent(BodyMesh);
 	SetReplicateMovement(true);
 	bReplicates=true;
+
+	
+
+	
 }
 
 // Called when the game starts or when spawned
 void APingPongBall::BeginPlay()
 {
 	Super::BeginPlay();
+	BodyMesh->SetStaticMesh(LoadBodyMesh());
 	StartPosition = GetActorLocation();
 	PingPongGameState = Cast<APingPongGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	verify(PingPongGameState);
@@ -45,6 +53,18 @@ void APingPongBall::Tick(float DeltaTime)
 		Server_Move(DeltaTime);
 	}
 
+}
+
+UStaticMesh* APingPongBall::LoadBodyMesh()
+{
+	if(BodyMeshRef.IsPending())
+	{
+		const FSoftObjectPath& AssetRef = BodyMeshRef.ToString();
+		FStreamableManager& StreamableManager = UAssetManager::Get().GetStreamableManager();
+		BodyMeshRef = Cast<UStaticMesh>(StreamableManager.LoadSynchronous(AssetRef));
+	}
+	return BodyMeshRef.Get();
+	
 }
 
 void APingPongBall::StartMove()
@@ -78,7 +98,9 @@ void APingPongBall::Multicast_HitEffect_Implementation()
 	UWorld * world = GetWorld();
 	if(world && HitEffect)
 	{
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect,GetActorLocation());
+		UParticleSystem* Effect = LoadObject<UParticleSystem>(NULL,TEXT("'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"),
+		NULL,LOAD_None,NULL);
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Effect,GetActorLocation());
 	}
 }
 
