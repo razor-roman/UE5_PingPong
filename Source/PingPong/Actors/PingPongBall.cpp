@@ -27,9 +27,6 @@ APingPongBall::APingPongBall()
 	SetRootComponent(BodyMesh);
 	SetReplicateMovement(true);
 	bReplicates=true;
-
-	
-
 	
 }
 
@@ -37,7 +34,8 @@ APingPongBall::APingPongBall()
 void APingPongBall::BeginPlay()
 {
 	Super::BeginPlay();
-	BodyMesh->SetStaticMesh(LoadBodyMesh());
+	LoadBodyMesh();
+	LoadParticleEffect();
 	StartPosition = GetActorLocation();
 	PingPongGameState = Cast<APingPongGameStateBase>(UGameplayStatics::GetGameState(GetWorld()));
 	verify(PingPongGameState);
@@ -55,16 +53,37 @@ void APingPongBall::Tick(float DeltaTime)
 
 }
 
-UStaticMesh* APingPongBall::LoadBodyMesh()
+void APingPongBall::LoadBodyMesh()
 {
-	if(BodyMeshRef.IsPending())
+	FStreamableDelegate LoadMeshDelegate;
+	LoadMeshDelegate.BindUObject(this,&APingPongBall::OnBodyMeshLoaded);
+	UAssetManager& assetManager = UAssetManager::Get();
+	FStreamableManager& streamableManager = assetManager.GetStreamableManager();
+	AssetHandle = streamableManager.RequestAsyncLoad(BodyMeshRef.ToString(),LoadMeshDelegate);
+}
+
+void APingPongBall::OnBodyMeshLoaded()
+{
+	UStaticMesh* loadedMesh = Cast<UStaticMesh>(AssetHandle.Get()->GetLoadedAsset());
+	if(loadedMesh)
 	{
-		const FSoftObjectPath& AssetRef = BodyMeshRef.ToString();
-		FStreamableManager& StreamableManager = UAssetManager::Get().GetStreamableManager();
-		BodyMeshRef = Cast<UStaticMesh>(StreamableManager.LoadSynchronous(AssetRef));
+		BodyMesh->SetStaticMesh(loadedMesh);
 	}
-	return BodyMeshRef.Get();
-	
+}
+
+void APingPongBall::LoadParticleEffect()
+{
+	FStreamableDelegate LoadParticleDelegate;
+	LoadParticleDelegate.BindUObject(this,&APingPongBall::OnParticleEffectLoaded);
+	UAssetManager& assetManager = UAssetManager::Get();
+	FStreamableManager& streamableManager = assetManager.GetStreamableManager();
+	ParticleEffectAssetHandle = streamableManager.RequestAsyncLoad(ParticleEffectRef.ToString(),LoadParticleDelegate);
+
+}
+
+void APingPongBall::OnParticleEffectLoaded()
+{
+	HitEffect = Cast<UParticleSystem>(ParticleEffectAssetHandle.Get()->GetLoadedAsset());	
 }
 
 void APingPongBall::StartMove()
@@ -98,9 +117,8 @@ void APingPongBall::Multicast_HitEffect_Implementation()
 	UWorld * world = GetWorld();
 	if(world && HitEffect)
 	{
-		UParticleSystem* Effect = LoadObject<UParticleSystem>(NULL,TEXT("'/Game/StarterContent/Particles/P_Explosion.P_Explosion'"),
-		NULL,LOAD_None,NULL);
-		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), Effect,GetActorLocation());
+		if(PingPongGameState->GetMaxScore()!=PingPongGameState->GetBallHits()) return;
+		UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitEffect,GetActorLocation());
 	}
 }
 

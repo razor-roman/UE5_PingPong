@@ -7,6 +7,7 @@
 #include "PingPong/Pawns/PingPongPlayerPawn.h"
 #include "PingPongBall.generated.h"
 
+struct FStreamableHandle;
 class APingPongGameStateBase;
 class USphereComponent;
 UCLASS()
@@ -34,7 +35,16 @@ protected:
 	UAudioComponent* BallCollideSound;
 	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite)
 	TSoftObjectPtr<UStaticMesh> BodyMeshRef;
-	UStaticMesh* LoadBodyMesh();
+	TSharedPtr<FStreamableHandle> AssetHandle;
+	UFUNCTION(CallInEditor,BlueprintCallable)
+	void LoadBodyMesh();
+	void OnBodyMeshLoaded();
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
+	TSoftObjectPtr<UParticleSystem> ParticleEffectRef;
+	TSharedPtr<FStreamableHandle> ParticleEffectAssetHandle;
+	UFUNCTION(CallInEditor,BlueprintCallable)
+	void LoadParticleEffect();
+	void OnParticleEffectLoaded();
 	
 	UPROPERTY(Replicated)
 	bool isMoving = true;	

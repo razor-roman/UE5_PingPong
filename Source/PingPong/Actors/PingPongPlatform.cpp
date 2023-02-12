@@ -4,6 +4,8 @@
 #include "PingPongPlatform.h"
 
 #include "Components/BoxComponent.h"
+#include "Engine/AssetManager.h"
+#include "Engine/StreamableManager.h"
 
 // Sets default values
 APingPongPlatform::APingPongPlatform()
@@ -21,7 +23,7 @@ APingPongPlatform::APingPongPlatform()
 void APingPongPlatform::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	LoadMesh();
 }
 
 
@@ -30,6 +32,24 @@ void APingPongPlatform::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+}
+
+void APingPongPlatform::LoadMesh()
+{
+	FStreamableDelegate StreamableDelegate;
+	StreamableDelegate.BindUObject(this,&APingPongPlatform::OnMeshLoaded);
+	UAssetManager& AssetManager = UAssetManager::Get();
+	FStreamableManager& StreamableManager = AssetManager.GetStreamableManager();
+	AssetHandle  = StreamableManager.RequestAsyncLoad(MeshRef.ToString(),StreamableDelegate);
+}
+
+void APingPongPlatform::OnMeshLoaded()
+{
+	UStaticMesh* LoadedMesh = Cast<UStaticMesh>(AssetHandle.Get()->GetLoadedAsset());
+	if(LoadedMesh)
+	{
+		BodyMesh->SetStaticMesh(LoadedMesh);
+	}
 }
 
 void APingPongPlatform::Server_MoveRight_Implementation(float AxisValue)

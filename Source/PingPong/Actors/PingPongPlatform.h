@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Engine/StreamableManager.h"
 #include "GameFramework/Actor.h"
 #include "PingPongPlatform.generated.h"
 
@@ -31,6 +32,14 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float MoveSpeed = 100;
 
+protected:
+	UPROPERTY(EditDefaultsOnly,BlueprintReadWrite)
+	TSoftObjectPtr<UStaticMesh> MeshRef;
+	TSharedPtr<FStreamableHandle> AssetHandle;
+	UFUNCTION(BlueprintCallable,CallInEditor)
+	void LoadMesh();
+	void OnMeshLoaded();
+	
 public:
 	UFUNCTION(Server, Reliable, WithValidation)
     void Server_MoveRight(float AxisValue);
